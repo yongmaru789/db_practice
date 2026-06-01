@@ -14,9 +14,17 @@
         <result property="updatedAt" column="updated_at"/>
     </resultMap>
 
-    <!-- 전체 조회 -->
+    <!-- 전체 조회 (동적 쿼리) -->
     <select id="findAll" resultMap="postResultMap">
         SELECT * FROM posts
+        <where>
+            <if test="title != null and title != ''">
+                AND title LIKE CONCAT('%', #{title}, '%')
+            </if>
+            <if test="author != null and author != ''">
+                AND author = #{author}
+            </if>
+        </where>
     </select>
 
     <!-- 단건 조회 -->

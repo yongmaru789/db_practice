@@ -25,7 +25,17 @@ public class PostMapperTest {
 
     @Test
     void 게시글_전체조회() {
-        postMapper.findAll().forEach(System.out::println);
+        // 전체 조회
+        System.out.println("=== 전체 조회 ===");
+        postMapper.findAll(null, null).forEach(System.out::println);
+
+        // 제목으로 검색
+        System.out.println("=== 제목 검색 ===");
+        postMapper.findAll("첫", null).forEach(System.out::println);
+
+        // 작성자로 검색
+        System.out.println("=== 작성자 검색 ===");
+        postMapper.findAll(null, "홍길동").forEach(System.out::println);
     }
 
     @Test
