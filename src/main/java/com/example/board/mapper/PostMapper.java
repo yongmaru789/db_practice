@@ -14,4 +14,5 @@ public interface PostMapper {
     void insert(Post post);
     void update(Post post);
     void delete(Long id);
+    void deleteAll(@Param("ids") List<Long> ids);
 }

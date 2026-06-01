@@ -6,6 +6,8 @@ import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import java.util.List;
+
 @SpringBootTest
 public class PostMapperTest {
 
@@ -59,5 +61,15 @@ public class PostMapperTest {
     void 게시글_삭제() {
         postMapper.delete(1L);
         System.out.println("삭제 완료");
+    }
+
+    @Test
+    void 게시글_다중삭제() {
+        List<Long> ids = List.of(2L, 3L);
+        postMapper.deleteAll(ids);
+        System.out.println("삭제 완료");
+
+        System.out.println("=== 삭제 후 전체 조회 ===");
+        postMapper.findAll(null, null).forEach(System.out::println);
     }
 }
