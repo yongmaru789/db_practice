@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.PostMapper">
+
+    <resultMap id="postResultMap" type="Post">
+        <id property="id" column="id"/>
+        <result property="title" column="title"/>
+        <result property="content" column="content"/>
+        <result property="author" column="author"/>
+        <result property="createdAt" column="created_at"/>
+        <result property="updatedAt" column="updated_at"/>
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="findAll" resultMap="postResultMap">
+        SELECT * FROM posts
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="findById" parameterType="Long" resultMap="postResultMap">
+        SELECT * FROM posts WHERE id = #{id}
+    </select>
+
+    <!-- 게시글 작성 -->
+    <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO posts (title, content, author)
+        VALUES (#{title}, #{content}, #{author})
+    </insert>
+
+    <!-- 게시글 수정 -->
+    <update id="update" parameterType="Post">
+        UPDATE posts
+        SET title = #{title},
+        content = #{content}
+        WHERE id = #{id}
+    </update>
+
+    <!-- 게시글 삭제 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM posts WHERE id = #{id}
+    </delete>
+
+</mapper>
