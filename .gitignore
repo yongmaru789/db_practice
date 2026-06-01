@@ -22,3 +22,5 @@ out/
 
 ### Windows ###
 Thumbs.db
+
+application-local.yml
