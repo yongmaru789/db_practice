@@ -8,13 +8,9 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 @ToString
-public class Post {
+public class Member {
     private Long id;
-    private String title;
-    private String content;
-    private String author;
-    private Long memberId;
-    private Member member;
+    private String username;
+    private String email;
     private LocalDateTime createdAt;
-    private LocalDateTime updatedAt;
 }

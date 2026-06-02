@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.board.mapper.MemberMapper">
+
+    <resultMap id="memberResultMap" type="Member">
+        <id property="id" column="id"/>
+        <result property="username" column="username"/>
+        <result property="email" column="email"/>
+        <result property="createdAt" column="created_at"/>
+    </resultMap>
+
+    <!-- 전체 조회 -->
+    <select id="findAll" resultMap="memberResultMap">
+        SELECT * FROM members
+    </select>
+
+    <!-- 단건 조회 -->
+    <select id="findById" parameterType="Long" resultMap="memberResultMap">
+        SELECT * FROM members WHERE id = #{id}
+    </select>
+
+    <!-- 회원 가입 -->
+    <insert id="insert" parameterType="Member" useGeneratedKeys="true" keyProperty="id">
+        INSERT INTO members (username, email)
+        VALUES (#{username}, #{email})
+    </insert>
+
+    <!-- 회원 삭제 -->
+    <delete id="delete" parameterType="Long">
+        DELETE FROM members WHERE id = #{id}
+    </delete>
+
+</mapper>

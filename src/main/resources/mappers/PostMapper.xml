@@ -6,36 +6,67 @@
 <mapper namespace="com.example.board.mapper.PostMapper">
 
     <resultMap id="postResultMap" type="Post">
-        <id property="id" column="id"/>
+        <id property="id" column="post_id"/>
         <result property="title" column="title"/>
         <result property="content" column="content"/>
         <result property="author" column="author"/>
+        <result property="memberId" column="member_id"/>
         <result property="createdAt" column="created_at"/>
         <result property="updatedAt" column="updated_at"/>
+
+        <!-- JOIN한 member 정보를 Member 객체에 매핑 -->
+        <association property="member" javaType="Member">
+            <id property="id" column="member_id"/>
+            <result property="username" column="username"/>
+            <result property="email" column="email"/>
+        </association>
     </resultMap>
 
-    <!-- 전체 조회 (동적 쿼리) -->
+    <!-- 전체 조회 (JOIN) -->
     <select id="findAll" resultMap="postResultMap">
-        SELECT * FROM posts
+        SELECT
+        p.id AS post_id,
+        p.title,
+        p.content,
+        p.author,
+        p.member_id,
+        p.created_at,
+        p.updated_at,
+        m.username,
+        m.email
+        FROM posts p
+        LEFT JOIN members m ON p.member_id = m.id
         <where>
             <if test="title != null and title != ''">
-                AND title LIKE CONCAT('%', #{title}, '%')
+                AND p.title LIKE CONCAT('%', #{title}, '%')
             </if>
             <if test="author != null and author != ''">
-                AND author = #{author}
+                AND p.author = #{author}
             </if>
         </where>
     </select>
 
-    <!-- 단건 조회 -->
+    <!-- 단건 조회 (JOIN) -->
     <select id="findById" parameterType="Long" resultMap="postResultMap">
-        SELECT * FROM posts WHERE id = #{id}
+        SELECT
+        p.id AS post_id,
+        p.title,
+        p.content,
+        p.author,
+        p.member_id,
+        p.created_at,
+        p.updated_at,
+        m.username,
+        m.email
+        FROM posts p
+        LEFT JOIN members m ON p.member_id = m.id
+        WHERE p.id = #{id}
     </select>
 
     <!-- 게시글 작성 -->
     <insert id="insert" parameterType="Post" useGeneratedKeys="true" keyProperty="id">
-        INSERT INTO posts (title, content, author)
-        VALUES (#{title}, #{content}, #{author})
+        INSERT INTO posts (title, content, author, member_id)
+        VALUES (#{title}, #{content}, #{author}, #{memberId})
     </insert>
 
     <!-- 게시글 수정 -->
